@@ -1,15 +1,22 @@
 import React from 'react'
+import FullPage from '@/layout/FullPage'
 import Cover from '@/components/Cover'
 import Slider from '@/components/Slider'
-import { Box, Flex } from '@chakra-ui/react'
+import Form from '@/components/RSVPForm'
 
 export default function Home() {
   return (
-    <Slider>
-      <Cover />
-      <Box h="full" bg="lightsalmon">
-        booya
-      </Box>
-    </Slider>
+    <>
+      <style global jsx>{`
+        div#__next {
+          height: 100%;
+        }
+      `}</style>
+      <Slider>
+        <Cover />
+        <Form />
+        <div>tests</div>
+      </Slider>
+    </>
   )
 }
