@@ -1,12 +1,26 @@
 import { extendTheme } from '@chakra-ui/react'
 
 export default extendTheme({
+  styles: {
+    global: {
+      body: {
+        fontFamily: "'Montserrat', sans-serif",
+      },
+    },
+  },
   fonts: {
-    playfair: 'Playfair Display',
+    playfair: "'Playfair Display', serif",
+    // montserrat: "'Montserrat', sans-serif",
   },
   components: {
     Text: {
       variants: {
+        extraLight: {
+          fontWeight: 200,
+        },
+        light: {
+          fontWeight: 300,
+        },
         regular: {
           fontWeight: 400,
         },
