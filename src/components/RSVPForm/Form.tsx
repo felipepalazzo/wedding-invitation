@@ -9,9 +9,6 @@ import {
   Stack,
   FormControl,
   FormLabel,
-  VStack,
-  Select,
-  HStack,
   Checkbox,
   Flex,
   Center,
@@ -19,10 +16,30 @@ import {
 import { useForm, Controller } from 'react-hook-form'
 import FullPage from '@/layout/FullPage'
 
-const Form = () => {
+interface FormData {
+  name: string
+  rsvp: string
+  diet?: string
+  plusone?: string
+}
+
+interface Props {
+  onSubmit: (data: Guest) => void
+  loading: boolean
+}
+
+const Form: React.FC<Props> = ({ onSubmit, loading }) => {
   const [plusone, setPlusone] = useState(false)
-  const { control, handleSubmit } = useForm()
-  const onSubmit = data => console.log(data)
+  const { control, handleSubmit } = useForm<FormData>()
+
+  const onFormSubmit = (data: FormData) => {
+    onSubmit({
+      fullName: data.name,
+      plusone: data.plusone,
+      diet: data.diet,
+      rsvp: Boolean(data.rsvp),
+    })
+  }
 
   return (
     <FullPage>
@@ -35,9 +52,9 @@ const Form = () => {
         rvsp
       </Text>
       <Text>Kindly reply by 31st January 2023</Text>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onFormSubmit)}>
         <Controller
-          name="confirmed"
+          name="rsvp"
           control={control}
           render={({ field }) => (
             <RadioGroup {...field}>
@@ -94,7 +111,9 @@ const Form = () => {
           )}
         />
         <Center pt={6}>
-          <Button type="submit">Reply now</Button>
+          <Button type="submit" isLoading={loading}>
+            Reply now
+          </Button>
         </Center>
       </form>
     </FullPage>

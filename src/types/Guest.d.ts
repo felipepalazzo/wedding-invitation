@@ -1,4 +1,8 @@
 interface Guest {
-  firstName: string
-  lastName: string
+  firstName?: string
+  lastName?: string
+  diet?: string
+  plusone?: string
+  fullName: string
+  rsvp: boolean
 }
