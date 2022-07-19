@@ -15,7 +15,7 @@ export default function Home() {
       <Slider>
         <Cover />
         <Form />
-        <div>tests</div>
+        <div>details:</div>
       </Slider>
     </>
   )

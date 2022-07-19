@@ -1,27 +1,42 @@
 import React from 'react'
-import { Box, Text, Divider } from '@chakra-ui/react'
+import { Box, Text } from '@chakra-ui/react'
 import FullPage from '@/layout/FullPage'
+
+const Font = ({ children }: { children: string }) => (
+  <Text fontFamily="playfair" fontSize="6xl" variant="bold" lineHeight={1}>
+    {children}
+  </Text>
+)
 
 const Cover: React.FC = () => (
   <FullPage>
     <Box>
-      <Text fontFamily="playfair">Paulina</Text>
+      <Font>Paulina</Font>
     </Box>
     <Box>
-      <Text>Szymanska</Text>
+      <Font>Szymanska</Font>
     </Box>
     <Box>
-      <Text>&amp;</Text>
+      <Text fontFamily="playfair" fontSize="5xl" variant="bold">
+        &amp;
+      </Text>
     </Box>
     <Box>
-      <Text>Felipe</Text>
+      <Font>Felipe</Font>
     </Box>
     <Box>
-      <Text>Palazzo</Text>
+      <Font>Palazzo</Font>
     </Box>
-    <Divider />
-    <Box>
-      <Text>Would love to invite you to their wedding at 7pm</Text>
+    <Box
+      borderColor="black"
+      borderTopWidth={1}
+      borderBottomWidth={1}
+      py={4}
+      my={6}
+    >
+      <Text>Would love to invite you</Text>
+      <Text>to their wedding at 7pm</Text>
+      <Text>27 . 05 . 2023</Text>
     </Box>
   </FullPage>
 )
