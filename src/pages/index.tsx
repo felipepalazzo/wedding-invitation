@@ -14,7 +14,7 @@ export default function Home() {
 
   const onSubmit = async (data: Guest) => {
     setLoading(true)
-    const { data: guest, error } = await supabase.from('invite').insert([data])
+    const { data: guest, error } = await supabase.from('guests').insert([data])
     setLoading(false)
     if (error) {
       setModalTitle('Ooops!')

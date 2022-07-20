@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import joi from 'joi'
+import { joiResolver } from '@hookform/resolvers/joi'
 import {
   Box,
   RadioGroup,
@@ -12,9 +14,17 @@ import {
   Checkbox,
   Flex,
   Center,
+  FormErrorMessage,
 } from '@chakra-ui/react'
 import { useForm, Controller } from 'react-hook-form'
 import FullPage from '@/layout/FullPage'
+
+const schema = joi.object({
+  name: joi.string().required().min(5).max(50),
+  rsvp: joi.string().required(),
+  diet: joi.string().allow(''),
+  plusone: joi.string().min(5).max(50),
+})
 
 interface FormData {
   name: string
@@ -30,7 +40,14 @@ interface Props {
 
 const Form: React.FC<Props> = ({ onSubmit, loading }) => {
   const [plusone, setPlusone] = useState(false)
-  const { control, handleSubmit } = useForm<FormData>()
+  const {
+    control,
+    handleSubmit,
+    watch,
+    formState: { errors: formErrors },
+  } = useForm<FormData>({
+    resolver: joiResolver(schema),
+  })
 
   const onFormSubmit = (data: FormData) => {
     onSubmit({
@@ -72,11 +89,12 @@ const Form: React.FC<Props> = ({ onSubmit, loading }) => {
         <Controller
           name="name"
           control={control}
-          render={({ field }) => (
+          render={({ field, fieldState }) => (
             <>
-              <FormControl>
+              <FormControl isInvalid={Boolean(fieldState.error?.message)}>
                 <FormLabel>Name:</FormLabel>
                 <Input {...field} placeholder="Full Name" />
+                <FormErrorMessage>{formErrors.name?.message}</FormErrorMessage>
               </FormControl>
               <Flex w="full" justifyContent="end" pt={2}>
                 <Checkbox onChange={e => setPlusone(e.target.checked)}>
@@ -111,7 +129,7 @@ const Form: React.FC<Props> = ({ onSubmit, loading }) => {
           )}
         />
         <Center pt={6}>
-          <Button type="submit" isLoading={loading}>
+          <Button type="submit" isLoading={loading} isDisabled={!watch('rsvp')}>
             Reply now
           </Button>
         </Center>
