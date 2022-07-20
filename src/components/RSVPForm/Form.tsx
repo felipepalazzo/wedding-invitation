@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React from 'react'
+import joi from 'joi'
+import { joiResolver } from '@hookform/resolvers/joi'
 import {
-  Box,
   RadioGroup,
   Radio,
   Text,
@@ -12,37 +13,51 @@ import {
   Checkbox,
   Flex,
   Center,
+  FormErrorMessage,
 } from '@chakra-ui/react'
 import { useForm, Controller } from 'react-hook-form'
-import FullPage from '@/layout/FullPage'
+
+const schema = joi.object({
+  name: joi.string().required().min(5).max(50),
+  rsvp: joi.string().required(),
+  diet: joi.string().allow(''),
+  plusone: joi.boolean(),
+})
 
 interface FormData {
   name: string
   rsvp: string
   diet?: string
-  plusone?: string
+  plusone?: boolean
 }
 
 interface Props {
   onSubmit: (data: Guest) => void
+  onRSVPclick: (confirm: boolean) => void
   loading: boolean
 }
 
-const Form: React.FC<Props> = ({ onSubmit, loading }) => {
-  const [plusone, setPlusone] = useState(false)
-  const { control, handleSubmit } = useForm<FormData>()
+const Form: React.FC<Props> = ({ onSubmit, onRSVPclick, loading }) => {
+  const {
+    control,
+    handleSubmit,
+    watch,
+    formState: { errors: formErrors },
+  } = useForm<FormData>({
+    resolver: joiResolver(schema),
+  })
 
   const onFormSubmit = (data: FormData) => {
     onSubmit({
       fullName: data.name,
       plusone: data.plusone,
       diet: data.diet,
-      rsvp: Boolean(data.rsvp),
+      rsvp: Boolean(+data.rsvp),
     })
   }
 
   return (
-    <FullPage>
+    <>
       <Text
         fontFamily="playfair"
         fontSize="7xl"
@@ -57,13 +72,19 @@ const Form: React.FC<Props> = ({ onSubmit, loading }) => {
           name="rsvp"
           control={control}
           render={({ field }) => (
-            <RadioGroup {...field}>
-              <Stack direction="row" spacing={6} py={6}>
+            <RadioGroup
+              {...field}
+              onChange={e => {
+                field.onChange(e)
+                onRSVPclick(Boolean(+e))
+              }}
+            >
+              <Stack direction="column" spacing={6} py={6}>
                 <Radio value="1">
-                  <Text>Delighted to accept</Text>
+                  <Text variant="medium">Delighted to accept 😻</Text>
                 </Radio>
                 <Radio value="0">
-                  <Text>Regret to decline</Text>
+                  <Text variant="medium">Regret to decline 😿</Text>
                 </Radio>
               </Stack>
             </RadioGroup>
@@ -72,34 +93,27 @@ const Form: React.FC<Props> = ({ onSubmit, loading }) => {
         <Controller
           name="name"
           control={control}
-          render={({ field }) => (
+          render={({ field, fieldState }) => (
             <>
-              <FormControl>
+              <FormControl isInvalid={Boolean(fieldState.error?.message)}>
                 <FormLabel>Name:</FormLabel>
                 <Input {...field} placeholder="Full Name" />
+                <FormErrorMessage>{formErrors.name?.message}</FormErrorMessage>
               </FormControl>
-              <Flex w="full" justifyContent="end" pt={2}>
-                <Checkbox onChange={e => setPlusone(e.target.checked)}>
-                  <Text>Plus one?</Text>
-                </Checkbox>
-              </Flex>
             </>
           )}
         />
-        {plusone ? (
-          <Box pb={6}>
-            <Controller
-              name="plusone"
-              control={control}
-              render={({ field }) => (
-                <FormControl>
-                  <FormLabel>Name:</FormLabel>
-                  <Input {...field} />
-                </FormControl>
-              )}
-            />
-          </Box>
-        ) : null}
+        <Controller
+          name="plusone"
+          control={control}
+          render={({ field }) => (
+            <Flex w="full" justifyContent="flex-end" pt={2}>
+              <Checkbox {...field} value="1">
+                <Text>Plus one?</Text>
+              </Checkbox>
+            </Flex>
+          )}
+        />
         <Controller
           name="diet"
           control={control}
@@ -110,13 +124,18 @@ const Form: React.FC<Props> = ({ onSubmit, loading }) => {
             </FormControl>
           )}
         />
-        <Center pt={6}>
-          <Button type="submit" isLoading={loading}>
+        <Center pt={8}>
+          <Button
+            type="submit"
+            colorScheme="blue"
+            isLoading={loading}
+            isDisabled={!watch('rsvp')}
+          >
             Reply now
           </Button>
         </Center>
       </form>
-    </FullPage>
+    </>
   )
 }
 

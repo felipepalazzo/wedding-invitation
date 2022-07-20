@@ -10,7 +10,6 @@ export default extendTheme({
   },
   fonts: {
     playfair: "'Playfair Display', serif",
-    // montserrat: "'Montserrat', sans-serif",
   },
   components: {
     Text: {
@@ -32,6 +31,15 @@ export default extendTheme({
         },
         bold: {
           fontWeight: 700,
+        },
+      },
+    },
+    Alert: {
+      variants: {
+        success: {
+          container: {
+            bg: 'blue.300',
+          },
         },
       },
     },
