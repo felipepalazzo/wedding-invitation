@@ -40,6 +40,7 @@ interface Props {
 
 const Form: React.FC<Props> = ({ onSubmit, loading }) => {
   const [plusone, setPlusone] = useState(false)
+
   const {
     control,
     handleSubmit,
@@ -75,12 +76,12 @@ const Form: React.FC<Props> = ({ onSubmit, loading }) => {
           control={control}
           render={({ field }) => (
             <RadioGroup {...field}>
-              <Stack direction="row" spacing={6} py={6}>
+              <Stack direction="column" spacing={6} py={6}>
                 <Radio value="1">
-                  <Text>Delighted to accept</Text>
+                  <Text variant="medium">Delighted to accept 😻</Text>
                 </Radio>
                 <Radio value="0">
-                  <Text>Regret to decline</Text>
+                  <Text variant="medium">Regret to decline 😿</Text>
                 </Radio>
               </Stack>
             </RadioGroup>
@@ -112,7 +113,7 @@ const Form: React.FC<Props> = ({ onSubmit, loading }) => {
               render={({ field }) => (
                 <FormControl>
                   <FormLabel>Name:</FormLabel>
-                  <Input {...field} />
+                  <Input {...field} placeholder="Guest name" />
                 </FormControl>
               )}
             />
@@ -128,7 +129,7 @@ const Form: React.FC<Props> = ({ onSubmit, loading }) => {
             </FormControl>
           )}
         />
-        <Center pt={6}>
+        <Center pt={8}>
           <Button type="submit" isLoading={loading} isDisabled={!watch('rsvp')}>
             Reply now
           </Button>
