@@ -5,7 +5,7 @@ import { useSwiper } from 'swiper/react'
 export default function NextButton() {
   const swiper = useSwiper()
   return (
-    <Center bg="blue.400" position="absolute" bottom={0} w="full" zIndex={9}>
+    <Center position="absolute" bottom={0} w="full" zIndex={9}>
       <Button onClick={() => swiper.slideNext()}>Next</Button>
     </Center>
   )
