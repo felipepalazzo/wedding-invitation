@@ -28,7 +28,7 @@ interface FormData {
   name: string
   rsvp: string
   diet?: string
-  plusone?: string
+  plusone?: boolean
 }
 
 interface Props {
