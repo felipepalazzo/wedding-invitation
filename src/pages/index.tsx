@@ -1,6 +1,6 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useCallback, useRef } from 'react'
 import SwiperClass from 'swiper'
-import { Button, Text, useDisclosure } from '@chakra-ui/react'
+import { Text, useDisclosure } from '@chakra-ui/react'
 import FullPage from '@/layout/FullPage'
 import Cover from '@/components/Cover'
 import Slider from '@/components/Slider'
@@ -14,7 +14,7 @@ export default function Home() {
   const [modalTitle, setModalTitle] = useState('')
   const [loading, setLoading] = useState(false)
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const [arrow, showArrow] = useState(false)
+  const [arrow, showArrow] = useState(true)
   const swiperRef = useRef<SwiperClass | null>(null)
 
   const onSubmit = async (data: Guest) => {
@@ -33,6 +33,10 @@ export default function Home() {
     }
   }
 
+  const onSlideChange = useCallback((swiper: SwiperClass) => {
+    showArrow(swiper.activeIndex === 0)
+  }, [])
+
   return (
     <>
       <style global jsx>{`
@@ -40,10 +44,15 @@ export default function Home() {
           height: 100%;
         }
       `}</style>
-      <Slider onInit={() => showArrow(true)}>
+      <Slider
+        showButton={arrow}
+        onSlideChange={onSlideChange}
+        onInit={swipe => {
+          swiperRef.current = swipe
+        }}
+      >
         <FullPage>
           <Cover />
-          {arrow ? <Button>slide down</Button> : null}
         </FullPage>
         <Form onSubmit={onSubmit} loading={loading} />
         <div>details:</div>
