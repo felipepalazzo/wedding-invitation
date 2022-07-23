@@ -33,10 +33,11 @@ interface FormData {
 
 interface Props {
   onSubmit: (data: Guest) => void
+  onRSVPclick: (confirm: boolean) => void
   loading: boolean
 }
 
-const Form: React.FC<Props> = ({ onSubmit, loading }) => {
+const Form: React.FC<Props> = ({ onSubmit, onRSVPclick, loading }) => {
   const {
     control,
     handleSubmit,
@@ -71,7 +72,13 @@ const Form: React.FC<Props> = ({ onSubmit, loading }) => {
           name="rsvp"
           control={control}
           render={({ field }) => (
-            <RadioGroup {...field}>
+            <RadioGroup
+              {...field}
+              onChange={e => {
+                field.onChange(e)
+                onRSVPclick(Boolean(e))
+              }}
+            >
               <Stack direction="column" spacing={6} py={6}>
                 <Radio value="1">
                   <Text variant="medium">Delighted to accept 😻</Text>
