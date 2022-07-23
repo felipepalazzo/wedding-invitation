@@ -1,6 +1,6 @@
 import React from 'react'
-import { Box, Text, Link, Center, Flex } from '@chakra-ui/react'
-import Icon from '@/components/Icon/Icon'
+import { Box, Text, Link, Center } from '@chakra-ui/react'
+import { FaEnvelope, FaPlus, FaWineGlass } from 'react-icons/fa'
 
 const Details = () => {
   return (
@@ -36,9 +36,9 @@ const Details = () => {
           would make our day
         </Text>
         <Center w="60px" margin="auto" justifyContent="space-between" pt={6}>
-          <Icon name="wine-glass" />
-          <Icon name="plus" size="xs" />
-          <Icon name="envelope" />
+          <FaWineGlass />
+          <FaPlus size="xs" />
+          <FaEnvelope />
         </Center>
       </Box>
       <Box pb={6}>
