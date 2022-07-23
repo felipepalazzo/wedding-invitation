@@ -1,8 +1,7 @@
-import React, { useState } from 'react'
+import React from 'react'
 import joi from 'joi'
 import { joiResolver } from '@hookform/resolvers/joi'
 import {
-  Box,
   RadioGroup,
   Radio,
   Text,
@@ -23,7 +22,7 @@ const schema = joi.object({
   name: joi.string().required().min(5).max(50),
   rsvp: joi.string().required(),
   diet: joi.string().allow(''),
-  plusone: joi.string().min(5).max(50),
+  plusone: joi.boolean(),
 })
 
 interface FormData {
@@ -39,8 +38,6 @@ interface Props {
 }
 
 const Form: React.FC<Props> = ({ onSubmit, loading }) => {
-  const [plusone, setPlusone] = useState(false)
-
   const {
     control,
     handleSubmit,
@@ -55,7 +52,7 @@ const Form: React.FC<Props> = ({ onSubmit, loading }) => {
       fullName: data.name,
       plusone: data.plusone,
       diet: data.diet,
-      rsvp: Boolean(data.rsvp),
+      rsvp: data.rsvp,
     })
   }
 
@@ -97,28 +94,20 @@ const Form: React.FC<Props> = ({ onSubmit, loading }) => {
                 <Input {...field} placeholder="Full Name" />
                 <FormErrorMessage>{formErrors.name?.message}</FormErrorMessage>
               </FormControl>
-              <Flex w="full" justifyContent="end" pt={2}>
-                <Checkbox onChange={e => setPlusone(e.target.checked)}>
-                  <Text>Plus one?</Text>
-                </Checkbox>
-              </Flex>
             </>
           )}
         />
-        {plusone ? (
-          <Box pb={6}>
-            <Controller
-              name="plusone"
-              control={control}
-              render={({ field }) => (
-                <FormControl>
-                  <FormLabel>Name:</FormLabel>
-                  <Input {...field} placeholder="Guest name" />
-                </FormControl>
-              )}
-            />
-          </Box>
-        ) : null}
+        <Controller
+          name="plusone"
+          control={control}
+          render={({ field }) => (
+            <Flex w="full" justifyContent="end" pt={2}>
+              <Checkbox {...field} value="1">
+                <Text>Plus one?</Text>
+              </Checkbox>
+            </Flex>
+          )}
+        />
         <Controller
           name="diet"
           control={control}
@@ -130,7 +119,12 @@ const Form: React.FC<Props> = ({ onSubmit, loading }) => {
           )}
         />
         <Center pt={8}>
-          <Button type="submit" isLoading={loading} isDisabled={!watch('rsvp')}>
+          <Button
+            type="submit"
+            colorScheme="blue"
+            isLoading={loading}
+            isDisabled={!watch('rsvp')}
+          >
             Reply now
           </Button>
         </Center>

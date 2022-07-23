@@ -13,7 +13,7 @@ export default function NextButton() {
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 0.3, y: 0 }}
           transition={{
-            delay: 1.8,
+            delay: 1.5,
             duration: 2,
             repeat: Infinity,
             ease: 'easeInOut',

@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useRef } from 'react'
 import SwiperClass from 'swiper'
-import { Text, useDisclosure } from '@chakra-ui/react'
+import { Text, useDisclosure, useToast } from '@chakra-ui/react'
 import FullPage from '@/layout/FullPage'
 import Cover from '@/components/Cover'
 import Slider from '@/components/Slider'
@@ -11,6 +11,7 @@ import { DB_NAME } from '../constants'
 
 export default function Home() {
   const [error, setError] = useState('')
+  const toast = useToast()
   const [modalTitle, setModalTitle] = useState('')
   const [loading, setLoading] = useState(false)
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -19,8 +20,11 @@ export default function Home() {
 
   const onSubmit = async (data: Guest) => {
     setLoading(true)
-    const { data: guest, error } = await supabase.from(DB_NAME).insert([data])
+    const { data: guest, error } = await supabase
+      .from<Guest>(DB_NAME)
+      .insert([data])
     setLoading(false)
+
     if (error) {
       setModalTitle('Ooops!')
       setError(error.message)
@@ -29,7 +33,26 @@ export default function Home() {
     }
 
     if (guest) {
-      // confirmation modal pops
+      const { fullName, rsvp } = guest[0]
+      if (rsvp) {
+        toast({
+          title: 'Thank you',
+          description: `${fullName}, you're now on the guest list!`,
+          status: 'success',
+          variant: 'success',
+          position: 'top',
+        })
+        swiperRef.current?.slideNext()
+      } else {
+        toast({
+          title: 'Thank you',
+          description: `${fullName}, your answer has been submitted`,
+          status: 'success',
+          variant: 'success',
+          position: 'top',
+        })
+        swiperRef.current?.disable()
+      }
     }
   }
 
