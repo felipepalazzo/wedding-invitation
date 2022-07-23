@@ -10,7 +10,6 @@ import Modal from '@/components/Modal'
 import Details from '@/components/Details'
 import supabase from '@/utils/supabaseClient'
 import { DB_NAME } from '../constants'
-import { m } from 'framer-motion'
 
 const animationOpts: Options = {
   startVelocity: 30,
