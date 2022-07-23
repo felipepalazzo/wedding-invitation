@@ -60,7 +60,7 @@ const Cover: React.FC = () => (
           Saturday, 27 May 2023
         </Text>
         <Text textTransform="uppercase" fontSize="sm">
-          at 5:00 in the afternoon
+          at 5:30 in the afternoon
         </Text>
         <Text textTransform="uppercase" fontSize="sm">
           Artbistro, Stalowa 52 in Warsaw

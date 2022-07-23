@@ -16,7 +16,6 @@ import {
   FormErrorMessage,
 } from '@chakra-ui/react'
 import { useForm, Controller } from 'react-hook-form'
-import FullPage from '@/layout/FullPage'
 
 const schema = joi.object({
   name: joi.string().required().min(5).max(50),
@@ -50,14 +49,14 @@ const Form: React.FC<Props> = ({ onSubmit, loading }) => {
   const onFormSubmit = (data: FormData) => {
     onSubmit({
       fullName: data.name,
-      plusone: data.plusone,
+      plusone: Boolean(data.plusone),
       diet: data.diet,
-      rsvp: data.rsvp,
+      rsvp: Boolean(data.rsvp),
     })
   }
 
   return (
-    <FullPage>
+    <>
       <Text
         fontFamily="playfair"
         fontSize="7xl"
@@ -129,7 +128,7 @@ const Form: React.FC<Props> = ({ onSubmit, loading }) => {
           </Button>
         </Center>
       </form>
-    </FullPage>
+    </>
   )
 }
 

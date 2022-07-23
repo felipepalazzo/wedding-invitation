@@ -1,6 +1,6 @@
 interface Guest {
-  diet?: string
-  plusone?: string
   fullName: string
   rsvp: boolean
+  diet?: string
+  plusone?: boolean
 }

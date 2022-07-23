@@ -6,6 +6,7 @@ import Cover from '@/components/Cover'
 import Slider from '@/components/Slider'
 import Form from '@/components/RSVPForm'
 import Modal from '@/components/Modal'
+import Details from '@/components/Details'
 import supabase from '@/utils/supabaseClient'
 import { DB_NAME } from '../constants'
 
@@ -77,8 +78,12 @@ export default function Home() {
         <FullPage>
           <Cover />
         </FullPage>
-        <Form onSubmit={onSubmit} loading={loading} />
-        <div>details:</div>
+        <FullPage>
+          <Form onSubmit={onSubmit} loading={loading} />
+        </FullPage>
+        <FullPage>
+          <Details />
+        </FullPage>
       </Slider>
       <Modal onClose={onClose} open={isOpen} title={modalTitle}>
         <Text>{error}</Text>
