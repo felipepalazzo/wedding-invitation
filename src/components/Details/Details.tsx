@@ -1,7 +1,7 @@
 import React from 'react'
 import { Box, Text, Link, Center } from '@chakra-ui/react'
 import { FaEnvelope, FaPlus, FaWineGlass } from 'react-icons/fa'
-import config from 'config'
+import config from '../../config'
 
 const Details = () => (
   <>
