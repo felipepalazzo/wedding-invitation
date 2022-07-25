@@ -16,7 +16,7 @@ export default function Document() {
           rel="stylesheet"
         />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta property="og:title" content="SAVE THE DATE" />
+        <meta property="og:title" content="SAVE THE DATE: 27.05.2023" />
         <meta property="og:site_name" content="Paulina &amp; Felipe Wedding" />
         <meta property="og:url" content="http://paulinafelipe.day" />
         <meta
