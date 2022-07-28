@@ -18,7 +18,9 @@ import {
 import { useForm, Controller } from 'react-hook-form'
 
 const schema = joi.object({
-  name: joi.string().required().min(5).max(50),
+  name: joi.string().required().min(5).max(50).messages({
+    'any.required': 'Full Name is required',
+  }),
   rsvp: joi.string().required(),
   diet: joi.string().allow(''),
   plusone: joi.boolean(),
@@ -67,7 +69,7 @@ const Form: React.FC<Props> = ({ onSubmit, onRSVPclick, loading }) => {
         rvsp
       </Text>
       <Text>Kindly reply by 31st January 2023</Text>
-      <form onSubmit={handleSubmit(onFormSubmit)}>
+      <form onSubmit={handleSubmit(onFormSubmit)} data-testid="form">
         <Controller
           name="rsvp"
           control={control}
@@ -120,7 +122,11 @@ const Form: React.FC<Props> = ({ onSubmit, onRSVPclick, loading }) => {
           render={({ field }) => (
             <FormControl>
               <FormLabel>Dietary requirements:</FormLabel>
-              <Input {...field} placeholder="eg. allergies, vegetarian" />
+              <Input
+                {...field}
+                placeholder="eg. allergies, vegetarian"
+                data-testid="diet"
+              />
             </FormControl>
           )}
         />
