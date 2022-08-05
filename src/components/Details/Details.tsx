@@ -32,7 +32,7 @@ const Details = () => (
         Gifts
       </Text>
       <Text fontSize="sm">
-        For those who would like to buy us a gift, Polish tradition suggests
+        For those who would like to buy us a gift, local tradition suggests
         money in a card and wine
       </Text>
       <Center w="60px" margin="auto" justifyContent="space-between" pt={6}>
