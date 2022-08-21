@@ -51,10 +51,15 @@ const Details = () => (
         <Text as="span" variant="medium">
           28 th May,
         </Text>{' '}
-        at the bride&apos;s parents&apos; house for a BBQ at 1pm in{' '}
+        at the bride&apos;s parents&apos; house for a BBQ at{' '}
+        <Text as="span" variant="medium">
+          1pm
+        </Text>{' '}
+        in{' '}
         <Text as="span" variant="medium">
           Kochanowskiego 9c, Milanowek
-        </Text>
+        </Text>{' '}
+        (transport provided)
       </Text>
     </Box>
     <Box>
