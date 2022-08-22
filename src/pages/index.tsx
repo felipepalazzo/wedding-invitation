@@ -114,6 +114,7 @@ export default function Home() {
         toast({
           title: 'Thank you',
           description: `${fullName}, you're now on the guest list!`,
+          duration: 2000,
           status: 'success',
           variant: 'success',
           position: 'top',
@@ -123,6 +124,7 @@ export default function Home() {
         toast({
           title: 'Thank you',
           description: `${fullName}, your answer has been submitted`,
+          duration: 2000,
           status: 'success',
           variant: 'success',
           position: 'top',
