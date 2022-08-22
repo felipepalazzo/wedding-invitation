@@ -20,10 +20,21 @@ const animationOpts: Options = {
 const randomInRange = (min: number, max: number) =>
   Math.random() * (max - min) + min
 
+const parseDate = (timestamp: Date): string => {
+  const date = new Date(timestamp)
+  return `${date.getUTCDate()}/${date.getUTCMonth()}/${date.getUTCFullYear()}`
+}
+
 export default function Home() {
   const [error, setError] = useState('')
   const toast = useToast()
   const [modalTitle, setModalTitle] = useState('')
+  const [form, showForm] = useState(true)
+  const [status, setStatus] = useState<null | {
+    fullName: string
+    rsvp: boolean
+    timestamp: Date
+  }>(null)
   const [loading, setLoading] = useState(false)
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [arrow, showArrow] = useState(true)
@@ -31,6 +42,16 @@ export default function Home() {
   const swiperRef = useRef<SwiperClass | null>(null)
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
   const refAnimationInstance = useRef<CreateTypes | null>(null)
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const ls = localStorage.getItem('invite_form_status')
+      showForm(ls === null)
+      if (ls) {
+        setStatus(JSON.parse(ls.trim()))
+      }
+    }
+  }, [])
 
   useEffect(() => {
     if (canvasRef.current) {
@@ -76,6 +97,19 @@ export default function Home() {
 
     if (guest) {
       const { fullName, rsvp } = guest[0]
+      showForm(false)
+      setStatus(() => {
+        const now = new Date()
+        localStorage.setItem(
+          'invite_form_status',
+          JSON.stringify({
+            fullName,
+            rsvp,
+            timestamp: now,
+          })
+        )
+        return { fullName, rsvp, timestamp: now }
+      })
       if (rsvp) {
         toast({
           title: 'Thank you',
@@ -139,11 +173,34 @@ export default function Home() {
               height: '100%',
             }}
           />
-          <Form
-            onSubmit={onSubmit}
-            loading={loading}
-            onRSVPclick={showFireworks}
-          />
+          {form ? (
+            <Form
+              onSubmit={onSubmit}
+              loading={loading}
+              onRSVPclick={showFireworks}
+            />
+          ) : (
+            <>
+              <Text fontFamily="playfair" align="center" fontSize="4xl">
+                Thank you
+              </Text>
+              {status ? (
+                <>
+                  <Text fontFamily="playfair" align="center" fontSize="4xl">
+                    {status.fullName}
+                  </Text>
+                  <Text align="center" pt={2}>
+                    RSVP submitted on {parseDate(status.timestamp)}
+                  </Text>
+                  {status.rsvp ? (
+                    <Text align="center" pt={4}>
+                      (scroll down to see the details)
+                    </Text>
+                  ) : null}
+                </>
+              ) : null}
+            </>
+          )}
         </FullPage>
         <FullPage>
           <Details />
